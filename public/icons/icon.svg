@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Background circle - Sage Green -->
+  <circle cx="256" cy="256" r="240" fill="#7CB893"/>
+
+  <!-- Leaf/growth symbol representing freedom from addiction -->
+  <path d="M256 120 C160 180, 140 300, 256 380 C372 300, 352 180, 256 120Z" fill="#fff" opacity="0.95"/>
+
+  <!-- Stem -->
+  <path d="M256 320 L256 400" stroke="#fff" stroke-width="16" stroke-linecap="round" opacity="0.95"/>
+
+  <!-- Progress indicator arc - Soft Peach accent -->
+  <path d="M256 80 A176 176 0 0 1 400 200" fill="none" stroke="#FFB5A7" stroke-width="14" stroke-linecap="round"/>
+</svg>
