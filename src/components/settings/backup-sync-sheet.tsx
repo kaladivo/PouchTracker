@@ -55,9 +55,9 @@ function MainView({
 
     setPasskeyLoading(true);
     try {
-      const username = `pouchtracker-${Date.now()}`;
+      const username = `pouchfree-${Date.now()}`;
       const result = await localAuth.register(username, {
-        service: "pouchtracker",
+        service: "pouchfree",
         mnemonic: appOwner.mnemonic,
       });
 

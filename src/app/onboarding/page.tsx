@@ -26,7 +26,7 @@ export default function WelcomePage() {
       </div>
 
       {/* Welcome Text */}
-      <h1 className="mb-3 text-3xl font-semibold">Welcome to PouchTracker</h1>
+      <h1 className="mb-3 text-3xl font-semibold">Welcome to PouchFree</h1>
       <p className="text-muted-foreground mb-2 text-lg">
         Your compassionate companion for quitting nicotine pouches
       </p>
@@ -94,7 +94,7 @@ export default function WelcomePage() {
       <Dialog open={aboutOpen} onOpenChange={setAboutOpen}>
         <DialogContent className="max-w-sm">
           <DialogHeader>
-            <DialogTitle>About PouchTracker</DialogTitle>
+            <DialogTitle>About PouchFree</DialogTitle>
             <DialogDescription>Version 1.0.0</DialogDescription>
           </DialogHeader>
           <div className="space-y-4">

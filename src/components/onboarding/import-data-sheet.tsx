@@ -29,7 +29,7 @@ function MainView({ onMnemonicClick }: { onMnemonicClick: () => void }) {
     try {
       // Get profiles to find existing owner
       const profiles = await localAuth.getProfiles({
-        service: "pouchtracker",
+        service: "pouchfree",
       });
 
       if (profiles.length === 0) {
@@ -40,7 +40,7 @@ function MainView({ onMnemonicClick }: { onMnemonicClick: () => void }) {
 
       // Try to login with the first profile
       const result = await localAuth.login(profiles[0].ownerId, {
-        service: "pouchtracker",
+        service: "pouchfree",
       });
 
       if (result) {

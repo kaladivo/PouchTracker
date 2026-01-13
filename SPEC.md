@@ -1,4 +1,4 @@
-# PouchTracker - Nicotine Tapering App
+# PouchFree - Nicotine Tapering App
 
 A compassionate, local-first Progressive Web App to help users quit nicotine pouches through a structured tapering strategy with full tracking, gamification, and craving support. Will be hosted on pouchfree.app domain.
 

@@ -1,6 +1,6 @@
 {
-  "name": "PouchTracker",
-  "short_name": "PouchTracker",
+  "name": "PouchFree",
+  "short_name": "PouchFree",
   "description": "Your compassionate companion for quitting nicotine pouches",
   "start_url": "/",
   "display": "standalone",

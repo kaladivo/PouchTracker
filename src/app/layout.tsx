@@ -9,13 +9,13 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "PouchTracker",
+  title: "PouchFree",
   description: "Your compassionate companion for quitting nicotine pouches",
   manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
-    title: "PouchTracker",
+    title: "PouchFree",
   },
   formatDetection: {
     telephone: false,

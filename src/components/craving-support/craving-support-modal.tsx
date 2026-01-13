@@ -20,7 +20,7 @@ import {
   Pause,
   RotateCcw,
 } from "lucide-react";
-import { usePouchTrackerMutation } from "@/lib/evolu/hooks";
+import { usePouchFreeMutation } from "@/lib/evolu/hooks";
 
 type SupportMode =
   | "menu"
@@ -63,7 +63,7 @@ export function CravingSupportModal({
   );
   const [breathCount, setBreathCount] = useState(0);
 
-  const { logMetricEvent } = usePouchTrackerMutation();
+  const { logMetricEvent } = usePouchFreeMutation();
   const hasLoggedUsage = useRef(false);
 
   // Log craving support usage when modal opens

@@ -22,7 +22,7 @@ import { evoluReactWebDeps } from "@evolu/react-web";
 export { sqliteTrue };
 
 /**
- * PouchTracker Database Schema
+ * PouchFree Database Schema
  *
  * Local-first database using Evolu for offline support and E2E encrypted sync.
  * All data stays on device by default, with optional sync across devices.

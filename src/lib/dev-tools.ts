@@ -447,7 +447,7 @@ export function useDevTools() {
       help: () => {
         console.log(`
 ╔══════════════════════════════════════════════════════════════╗
-║             🧪 PouchTracker Dev Tools                        ║
+║             🧪 PouchFree Dev Tools                           ║
 ╠══════════════════════════════════════════════════════════════╣
 ║                                                              ║
 ║  ACHIEVEMENT SIMULATIONS:                                    ║

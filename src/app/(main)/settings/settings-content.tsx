@@ -25,7 +25,7 @@ import {
 } from "lucide-react";
 import {
   useUserSettings,
-  usePouchTrackerMutation,
+  usePouchFreeMutation,
   useJourneyArchives,
   useAllPouchLogs,
   useAllReflections,
@@ -122,7 +122,7 @@ export default function SettingsContent() {
     softDeleteReflection,
     softDeleteAchievement,
     softDeleteMetricEvent,
-  } = usePouchTrackerMutation();
+  } = usePouchFreeMutation();
 
   const [scheduleSheetOpen, setScheduleSheetOpen] = useState(false);
   const [costSheetOpen, setCostSheetOpen] = useState(false);

@@ -30,7 +30,7 @@ import {
 import {
   useUserSettings,
   useTaperingPhases,
-  usePouchTrackerMutation,
+  usePouchFreeMutation,
 } from "@/lib/evolu/hooks";
 import { EditPlanSheet } from "@/components/settings";
 import { useStruggleDetection } from "@/hooks/use-struggle-detection";
@@ -41,7 +41,7 @@ function PlanContentInner() {
   const settings = useUserSettings();
   const phases = useTaperingPhases();
   const { updateSettings, extendPhase, updatePhaseWeeks, updatePhaseDetails } =
-    usePouchTrackerMutation();
+    usePouchFreeMutation();
   const struggleDetection = useStruggleDetection();
 
   const [extendSheetOpen, setExtendSheetOpen] = useState(false);

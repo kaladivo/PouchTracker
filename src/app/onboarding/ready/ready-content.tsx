@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useOnboarding, StepIndicator } from "@/components/onboarding";
-import { usePouchTrackerMutation } from "@/lib/evolu/hooks";
+import { usePouchFreeMutation } from "@/lib/evolu/hooks";
 import { ArrowLeft, Sparkles, Leaf, Heart, Trophy } from "lucide-react";
 
 // Generate tapering plan based on user's current usage
@@ -73,7 +73,7 @@ function generatePlan(currentPouches: number, currentStrength: number) {
 export function ReadyContent() {
   const router = useRouter();
   const { data, totalSteps, setCurrentStep } = useOnboarding();
-  const { createUserSettings, createTaperingPhase } = usePouchTrackerMutation();
+  const { createUserSettings, createTaperingPhase } = usePouchFreeMutation();
   const [isStarting, setIsStarting] = useState(false);
 
   useEffect(() => {

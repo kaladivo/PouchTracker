@@ -3,7 +3,7 @@
 import { useCallback, useMemo } from "react";
 import {
   useAchievements as useAchievementsData,
-  usePouchTrackerMutation,
+  usePouchFreeMutation,
 } from "@/lib/evolu/hooks";
 import type { AchievementId as AchievementDbId } from "@/lib/evolu/schema";
 import {
@@ -21,7 +21,7 @@ export interface UnlockedAchievement extends Achievement {
 
 export function useAchievementsManager() {
   const achievementRows = useAchievementsData();
-  const { unlockAchievement, markAchievementSeen } = usePouchTrackerMutation();
+  const { unlockAchievement, markAchievementSeen } = usePouchFreeMutation();
 
   // Map database rows to achievement objects
   const unlockedAchievements = useMemo(() => {

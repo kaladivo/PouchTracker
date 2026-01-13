@@ -228,7 +228,7 @@ export function useAllReflections() {
 /**
  * Hook for mutations
  */
-export function usePouchTrackerMutation() {
+export function usePouchFreeMutation() {
   const { insert, update } = useEvolu();
 
   const createUserSettings = (data: {

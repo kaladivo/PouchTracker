@@ -18,7 +18,7 @@ import {
   useUserSettings,
   useTodayLogs,
   useTaperingPhases,
-  usePouchTrackerMutation,
+  usePouchFreeMutation,
 } from "@/lib/evolu/hooks";
 import type { TriggerType, PouchLogId } from "@/lib/evolu/schema";
 import { Moon, Heart, Sparkles, Trophy } from "lucide-react";
@@ -27,8 +27,7 @@ function HomeContentInner() {
   const settings = useUserSettings();
   const todayLogs = useTodayLogs();
   const phases = useTaperingPhases();
-  const { logPouch, createReflection, logMetricEvent } =
-    usePouchTrackerMutation();
+  const { logPouch, createReflection, logMetricEvent } = usePouchFreeMutation();
   const nicotineFreeProgress = useNicotineFreeProgress();
 
   const [logSheetOpen, setLogSheetOpen] = useState(false);

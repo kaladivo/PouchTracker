@@ -159,14 +159,14 @@ if (result.ok) {
 import { localAuth } from "@evolu/react";
 
 // Register passkey (use generated username)
-const username = `pouchtracker-${Date.now()}`;
+const username = `pouchfree-${Date.now()}`;
 await localAuth.register(username, {
-  service: "pouchtracker",
+  service: "pouchfree",
   mnemonic: appOwner.mnemonic, // Transfer current mnemonic
 });
 
 // Import with passkey
-await localAuth.login(ownerId, { service: "pouchtracker" });
+await localAuth.login(ownerId, { service: "pouchfree" });
 
 // After auth changes
 evolu.reloadApp();
