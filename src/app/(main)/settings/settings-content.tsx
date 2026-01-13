@@ -556,7 +556,15 @@ export default function SettingsContent() {
 
       {/* Footer */}
       <p className="text-muted-foreground pb-4 text-center text-xs">
-        Made with care by someone who understands the journey
+        made with &lt;3 by{" "}
+        <a
+          href="https://davenov.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="hover:underline"
+        >
+          Dave
+        </a>
       </p>
 
       {/* Edit Sheets */}
