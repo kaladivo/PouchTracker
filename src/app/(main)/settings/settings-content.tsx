@@ -31,7 +31,9 @@ import {
   useAllReflections,
   useAchievements,
   useMetricEvents,
+  useTaperingPhases,
 } from "@/lib/evolu/hooks";
+import { AUTO_INTERVAL_VALUE, calculateAutoInterval } from "@/lib/utils";
 import {
   EditScheduleSheet,
   EditCostSheet,
@@ -110,11 +112,19 @@ function getCurrencySymbol(code: string | null): string {
 
 export default function SettingsContent() {
   const settings = useUserSettings();
+  const phases = useTaperingPhases();
   const archives = useJourneyArchives();
   const allLogs = useAllPouchLogs();
   const allReflections = useAllReflections();
   const achievements = useAchievements();
   const metricEvents = useMetricEvents();
+
+  // Get current phase info for daily limit
+  const currentPhase = phases.find(
+    (p) => p.phaseNumber === settings?.currentPhase
+  );
+  const dailyLimit =
+    currentPhase?.dailyLimit ?? settings?.baselineDailyPouches ?? 10;
   const {
     updateSettings,
     createJourneyArchive,
@@ -229,11 +239,35 @@ export default function SettingsContent() {
     ? `${getCurrencySymbol(settings.currency)}${(settings.pricePerCan / 100).toFixed(2)}`
     : "—";
 
-  const intervalDisplay = settings?.pouchIntervalMinutes
-    ? settings.pouchIntervalMinutes >= 60
-      ? `${Math.round((settings.pouchIntervalMinutes / 60) * 10) / 10} hours`
-      : `${settings.pouchIntervalMinutes} min`
-    : "—";
+  // Calculate interval display with auto mode support
+  const intervalDisplay = useMemo(() => {
+    const interval = settings?.pouchIntervalMinutes;
+    if (interval === undefined || interval === null) return "—";
+
+    if (interval === AUTO_INTERVAL_VALUE) {
+      // Auto mode - show calculated value
+      const autoInterval = calculateAutoInterval(
+        settings?.wakeTime ?? "07:00",
+        settings?.sleepTime ?? "23:00",
+        dailyLimit
+      );
+      const hours = autoInterval / 60;
+      if (hours >= 1) {
+        return `Auto (${Math.round(hours * 10) / 10}h)`;
+      }
+      return `Auto (${autoInterval}m)`;
+    }
+
+    if (interval >= 60) {
+      return `${Math.round((interval / 60) * 10) / 10} hours`;
+    }
+    return `${interval} min`;
+  }, [
+    settings?.pouchIntervalMinutes,
+    settings?.wakeTime,
+    settings?.sleepTime,
+    dailyLimit,
+  ]);
 
   const handleScheduleSave = (
     wakeTime: string,
@@ -574,6 +608,7 @@ export default function SettingsContent() {
         currentWakeTime={settings?.wakeTime ?? "07:00"}
         currentSleepTime={settings?.sleepTime ?? "23:00"}
         currentInterval={settings?.pouchIntervalMinutes ?? 120}
+        dailyLimit={dailyLimit}
         onSave={handleScheduleSave}
       />
 

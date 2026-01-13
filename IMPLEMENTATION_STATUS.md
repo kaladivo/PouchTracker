@@ -1,6 +1,6 @@
 # PouchFree Implementation Status
 
-> **Last Updated:** 2026-01-13 (Removed passkey from import - only mnemonic works cross-device)
+> **Last Updated:** 2026-01-13 (Added auto interval calculation based on waking hours and daily target)
 > **Overall Progress:** ~99% Complete
 
 This document tracks implementation status against [SPEC.md](./SPEC.md). Update this file when making changes to the codebase.
@@ -62,16 +62,25 @@ This document tracks implementation status against [SPEC.md](./SPEC.md). Update 
 
 ### 4. Timer System
 
-| Feature                | Status   | Notes                     |
-| ---------------------- | -------- | ------------------------- |
-| Fixed interval timer   | Complete | Configurable              |
-| Sleep hours pause      | Complete | Based on wake/sleep times |
-| Smart pause (6+ hours) | Partial  | Basic sleep detection     |
-| Counting down state    | Complete | MM:SS display             |
-| Zero/available state   | Complete | Pulse animation           |
-| Sleeping state         | Complete | Shows resume time         |
+| Feature                | Status   | Notes                                       |
+| ---------------------- | -------- | ------------------------------------------- |
+| Fixed interval timer   | Complete | Configurable                                |
+| **Auto interval mode** | Complete | Calculates from waking hours & daily target |
+| Sleep hours pause      | Complete | Based on wake/sleep times                   |
+| Smart pause (6+ hours) | Partial  | Basic sleep detection                       |
+| Counting down state    | Complete | MM:SS display                               |
+| Zero/available state   | Complete | Pulse animation                             |
+| Sleeping state         | Complete | Shows resume time                           |
 
-**Files:** `src/hooks/use-timer.ts`, `src/app/(main)/page.tsx`
+**Auto Interval (2026-01-13):** Added "Auto" option in schedule settings that automatically calculates the optimal interval between pouches based on:
+- Waking hours (derived from wake/sleep times)
+- Current phase daily limit
+
+Formula: `interval = waking_minutes / daily_limit`
+
+When auto mode is enabled (interval = 0), the interval dynamically adjusts as the daily limit changes through tapering phases. Users can switch between Auto and fixed intervals in Settings > Schedule.
+
+**Files:** `src/hooks/use-timer.ts`, `src/app/(main)/page.tsx`, `src/lib/utils.ts`
 
 ### 5. Statistics & Dashboard
 

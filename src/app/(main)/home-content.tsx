@@ -22,6 +22,7 @@ import {
 } from "@/lib/evolu/hooks";
 import type { TriggerType, PouchLogId } from "@/lib/evolu/schema";
 import { Moon, Heart, Sparkles, Trophy } from "lucide-react";
+import { AUTO_INTERVAL_VALUE, calculateAutoInterval } from "@/lib/utils";
 
 function HomeContentInner() {
   const settings = useUserSettings();
@@ -57,12 +58,28 @@ function HomeContentInner() {
       ? new Date(todayLogs[0].timestamp)
       : null;
 
+  // Calculate effective interval (auto-calculated or manual)
+  const wakeTime = settings?.wakeTime ?? "07:00";
+  const sleepTime = settings?.sleepTime ?? "23:00";
+  const effectiveInterval = useMemo(() => {
+    const storedInterval = settings?.pouchIntervalMinutes;
+    if (
+      storedInterval === AUTO_INTERVAL_VALUE ||
+      storedInterval === undefined ||
+      storedInterval === null
+    ) {
+      // Auto mode: calculate based on waking hours and daily limit
+      return calculateAutoInterval(wakeTime, sleepTime, dailyLimit);
+    }
+    return storedInterval;
+  }, [settings?.pouchIntervalMinutes, wakeTime, sleepTime, dailyLimit]);
+
   // Timer - must be called unconditionally (React hooks rules)
   const timer = useTimer({
     lastPouchTime,
-    intervalMinutes: settings?.pouchIntervalMinutes ?? 120,
-    wakeTime: settings?.wakeTime ?? "07:00",
-    sleepTime: settings?.sleepTime ?? "23:00",
+    intervalMinutes: effectiveInterval,
+    wakeTime,
+    sleepTime,
     dailyLimit,
     todayCount,
   });

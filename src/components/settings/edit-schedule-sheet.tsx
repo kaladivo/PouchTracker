@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -9,6 +9,11 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
+import {
+  AUTO_INTERVAL_VALUE,
+  calculateAutoInterval,
+  calculateWakingMinutes,
+} from "@/lib/utils";
 
 interface EditScheduleSheetProps {
   open: boolean;
@@ -16,19 +21,30 @@ interface EditScheduleSheetProps {
   currentWakeTime: string;
   currentSleepTime: string;
   currentInterval: number;
+  dailyLimit: number;
   onSave: (wakeTime: string, sleepTime: string, interval: number) => void;
+}
+
+function formatIntervalLabel(minutes: number): string {
+  if (minutes < 60) return `${minutes} min`;
+  const hours = minutes / 60;
+  if (hours === Math.floor(hours))
+    return `${hours} hour${hours > 1 ? "s" : ""}`;
+  return `${hours.toFixed(1)} hours`;
 }
 
 function EditScheduleForm({
   currentWakeTime,
   currentSleepTime,
   currentInterval,
+  dailyLimit,
   onSave,
   onClose,
 }: {
   currentWakeTime: string;
   currentSleepTime: string;
   currentInterval: number;
+  dailyLimit: number;
   onSave: (wakeTime: string, sleepTime: string, interval: number) => void;
   onClose: () => void;
 }) {
@@ -36,12 +52,27 @@ function EditScheduleForm({
   const [sleepTime, setSleepTime] = useState(currentSleepTime);
   const [interval, setInterval] = useState(currentInterval);
 
+  // Calculate auto interval based on current wake/sleep times and daily limit
+  const autoInterval = useMemo(
+    () => calculateAutoInterval(wakeTime, sleepTime, dailyLimit),
+    [wakeTime, sleepTime, dailyLimit]
+  );
+
+  // Calculate waking hours for display
+  const wakingHours = useMemo(() => {
+    const minutes = calculateWakingMinutes(wakeTime, sleepTime);
+    return (minutes / 60).toFixed(1);
+  }, [wakeTime, sleepTime]);
+
+  const isAutoMode = interval === AUTO_INTERVAL_VALUE;
+
   const handleSave = () => {
     onSave(wakeTime, sleepTime, interval);
     onClose();
   };
 
   const intervalOptions = [
+    { value: AUTO_INTERVAL_VALUE, label: "Auto" },
     { value: 30, label: "30 min" },
     { value: 60, label: "1 hour" },
     { value: 90, label: "1.5 hours" },
@@ -75,6 +106,14 @@ function EditScheduleForm({
         />
       </div>
 
+      {/* Waking Hours Info */}
+      <div className="bg-muted/50 rounded-lg p-3 text-center">
+        <p className="text-muted-foreground text-sm">
+          <span className="text-foreground font-medium">{wakingHours}</span>{" "}
+          waking hours per day
+        </p>
+      </div>
+
       {/* Interval */}
       <div>
         <label className="mb-2 block text-sm font-medium">
@@ -95,6 +134,21 @@ function EditScheduleForm({
             </button>
           ))}
         </div>
+
+        {/* Auto interval explanation */}
+        {isAutoMode && (
+          <div className="bg-primary/10 mt-3 rounded-lg p-3">
+            <p className="text-sm">
+              <span className="font-medium">Auto mode:</span> Interval is
+              calculated as{" "}
+              <span className="text-primary font-medium">
+                {formatIntervalLabel(autoInterval)}
+              </span>{" "}
+              based on {wakingHours} waking hours and {dailyLimit} daily
+              pouches.
+            </p>
+          </div>
+        )}
       </div>
 
       <Button className="h-12 w-full" onClick={handleSave}>
@@ -110,6 +164,7 @@ export function EditScheduleSheet({
   currentWakeTime,
   currentSleepTime,
   currentInterval,
+  dailyLimit,
   onSave,
 }: EditScheduleSheetProps) {
   return (
@@ -128,6 +183,7 @@ export function EditScheduleSheet({
             currentWakeTime={currentWakeTime}
             currentSleepTime={currentSleepTime}
             currentInterval={currentInterval}
+            dailyLimit={dailyLimit}
             onSave={onSave}
             onClose={() => onOpenChange(false)}
           />
