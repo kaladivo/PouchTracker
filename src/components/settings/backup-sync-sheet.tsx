@@ -9,10 +9,9 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
-import { Cloud, Key, Copy, Download, Loader2, Check } from "lucide-react";
+import { Cloud, Copy, Download, Loader2, Check } from "lucide-react";
 import { evolu } from "@/lib/evolu/schema";
 import { Mnemonic } from "@evolu/common";
-import { localAuth } from "@evolu/react-web";
 import { toast } from "sonner";
 import type { AppOwner } from "@evolu/common";
 
@@ -33,8 +32,6 @@ function MainView({
   onClose: () => void;
 }) {
   const [copySuccess, setCopySuccess] = useState(false);
-  const [passkeyLoading, setPasskeyLoading] = useState(false);
-  const [passkeySuccess, setPasskeySuccess] = useState(false);
 
   const handleCopyMnemonic = async () => {
     if (!appOwner?.mnemonic) return;
@@ -50,56 +47,8 @@ function MainView({
     }
   };
 
-  const handleAddPasskey = async () => {
-    if (!appOwner?.mnemonic) return;
-
-    setPasskeyLoading(true);
-    try {
-      const username = `pouchfree-${Date.now()}`;
-      const result = await localAuth.register(username, {
-        service: "pouchfree",
-        mnemonic: appOwner.mnemonic,
-      });
-
-      if (result) {
-        setPasskeySuccess(true);
-        setTimeout(() => {
-          evolu.reloadApp();
-        }, 500);
-      } else {
-        toast.error("Failed to register passkey");
-      }
-    } catch {
-      toast.error("Passkey registration failed");
-    } finally {
-      setPasskeyLoading(false);
-    }
-  };
-
   return (
     <div className="space-y-6 py-4">
-      {/* Passkey Button */}
-      <Button
-        variant="outline"
-        className="h-14 w-full justify-start gap-3"
-        onClick={handleAddPasskey}
-        disabled={passkeyLoading || !appOwner}
-      >
-        {passkeyLoading ? (
-          <Loader2 className="h-5 w-5 animate-spin" />
-        ) : passkeySuccess ? (
-          <Check className="text-primary h-5 w-5" />
-        ) : (
-          <Key className="h-5 w-5" />
-        )}
-        <div className="text-left">
-          <p className="font-medium">Add Passkey</p>
-          <p className="text-muted-foreground text-xs">
-            Quick access on this device
-          </p>
-        </div>
-      </Button>
-
       {/* Copy Recovery Phrase Button */}
       <Button
         variant="outline"
@@ -272,8 +221,8 @@ export function BackupSyncSheet({ open, onOpenChange }: BackupSyncSheetProps) {
             Backup & Sync
           </SheetTitle>
           <SheetDescription>
-            Keep your progress safe. Use a passkey for easy access on this
-            device, or save your recovery phrase to restore on any device.
+            Keep your progress safe and sync across devices. Copy the mnemonic
+            to login on any device. Devices will keep in sync automatically.
           </SheetDescription>
         </SheetHeader>
 
