@@ -1,6 +1,6 @@
 # PouchFree Implementation Status
 
-> **Last Updated:** 2026-01-13 (Added: Custom plan editor for phases 1-4)
+> **Last Updated:** 2026-01-13 (Removed passkey from import - only mnemonic works cross-device)
 > **Overall Progress:** ~99% Complete
 
 This document tracks implementation status against [SPEC.md](./SPEC.md). Update this file when making changes to the codebase.
@@ -162,21 +162,21 @@ This document tracks implementation status against [SPEC.md](./SPEC.md). Update 
 
 ### 10. Data Management
 
-| Feature                   | Status   | Notes                                    |
-| ------------------------- | -------- | ---------------------------------------- |
-| Multi-device sync         | Complete | Evolu E2E                                |
-| Offline functionality     | Complete | Local-first                              |
-| Data reset                | Complete | Archive + delete, triggers re-onboarding |
-| Archive before reset      | Complete | Saves journey snapshot to archives       |
-| Backfill entries          | Complete | Date/time picker                         |
-| View archives             | Complete | Archives viewer sheet in Settings        |
-| **Backup & Sync UI**      | Complete | Replaced Owner ID with Backup & Sync row |
-| **Passkey registration**  | Complete | Silent username, auto-generated          |
-| **Mnemonic copy**         | Complete | One-tap copy to clipboard                |
-| **Mnemonic import**       | Complete | Paste 12/24-word phrase to restore       |
-| **Import from passkey**   | Complete | Use passkey to import data on new device |
-| **Sync status indicator** | Complete | Shows "Synced" badge when passkey exists |
-| **Onboarding import**     | Complete | "Import existing data" link on welcome   |
+| Feature                   | Status   | Notes                                      |
+| ------------------------- | -------- | ------------------------------------------ |
+| Multi-device sync         | Complete | Evolu E2E                                  |
+| Offline functionality     | Complete | Local-first                                |
+| Data reset                | Complete | Archive + delete, triggers re-onboarding   |
+| Archive before reset      | Complete | Saves journey snapshot to archives         |
+| Backfill entries          | Complete | Date/time picker                           |
+| View archives             | Complete | Archives viewer sheet in Settings          |
+| **Backup & Sync UI**      | Complete | Replaced Owner ID with Backup & Sync row   |
+| **Passkey registration**  | Complete | Silent username, auto-generated            |
+| **Mnemonic copy**         | Complete | One-tap copy to clipboard                  |
+| **Mnemonic import**       | Complete | Paste 12/24-word phrase to restore         |
+| **Import from passkey**   | Removed  | Not supported cross-device (uses mnemonic) |
+| **Sync status indicator** | Complete | Shows "Synced" badge when passkey exists   |
+| **Onboarding import**     | Complete | "Import existing data" link on welcome     |
 
 **Files:** `src/lib/evolu/schema.tsx`, `src/lib/evolu/hooks.ts`, `src/components/settings/delete-data-sheet.tsx`, `src/components/settings/archives-viewer-sheet.tsx`, `src/components/settings/backup-sync-sheet.tsx`, `src/components/onboarding/import-data-sheet.tsx`, `src/app/(main)/layout.tsx`
 
@@ -188,6 +188,13 @@ This document tracks implementation status against [SPEC.md](./SPEC.md). Update 
 - Import: Single textarea for pasting mnemonic, validates on submit
 - Onboarding: "Import existing data" text link opens import sheet
 - Evolu attribution footer in both modals
+
+**Import Sheet Simplification (2026-01-13):** Removed passkey option from import sheet:
+
+- Evolu's passkey data is stored locally in IndexedDB (doesn't sync across devices)
+- Only the passkey credential syncs via iCloud/Google, not the encrypted owner data
+- Mnemonic (recovery phrase) is the only reliable cross-device import method
+- Import sheet now directly shows mnemonic input without intermediate menu
 
 **Custom Plan Editor (2026-01-13):** Added ability to customize tapering plan:
 

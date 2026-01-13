@@ -77,7 +77,7 @@ function MainView({
   };
 
   return (
-    <div className="space-y-6 py-6">
+    <div className="space-y-6 py-4">
       {/* Passkey Button */}
       <Button
         variant="outline"
@@ -178,7 +178,7 @@ function ImportView({ onBack }: { onBack: () => void }) {
   };
 
   return (
-    <div className="space-y-6 py-6">
+    <div className="space-y-6 py-4">
       <Button
         variant="ghost"
         size="sm"
